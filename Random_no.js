@@ -1,7 +1,7 @@
  const max=prompt("Write the range of max no");
 
  const no = Math.floor(Math.random()*max) + 1;
- let guses=prompt("Enter your no");
+ let guses=prompt("Enter your No");
  while(true)
  {
     if(guses=="quit")
