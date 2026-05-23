@@ -1,5 +1,5 @@
  
-let movie="vitthal";
+let movie="Vitthal";
 let guese=prompt("Enter your movie");
 while((guese!==movie)&& (guese!=="quit"))
 {
