@@ -6,7 +6,7 @@
  {
     if(guses=="quit")
     {
-        console.log("The game is Quitting");
+        console.log("The game is Quited");
         break;
     }
     if(guses==no)
