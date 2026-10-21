@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Hanoi Lab — AI Search Playground</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Hanoi Lab home">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span>hanoi<span class="brand-light">lab</span><small>AI SEARCH PLAYGROUND</small></span>
+      </a>
+
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-item active" type="button"><span class="nav-icon">⌘</span> Interactive lab <span class="nav-dot"></span></button>
+      <a class="nav-item" href="#how-it-works"><span class="nav-icon">◎</span> Algorithm notes</a>
+
+      <div class="sidebar-bottom">
+        <div class="status-card">
+          <div class="status-top"><span class="pulse"></span> SYSTEM READY</div>
+          <p>Recursive solver initialized. Choose your disk count and explore the search process.</p>
+          <div class="status-foot"><span>ENGINE</span><strong>RECURSIVE DFS</strong></div>
+        </div>
+        <div class="sidebar-credit">MINI PROJECT <span>·</span> AI PRACTICALS</div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><span class="crumb-slash">/</span><strong>Interactive lab</strong></div>
+        <div class="topbar-right"><span class="live-indicator"></span><span>LOCAL SIMULATION</span><span class="topbar-divider"></span><span class="avatar">AI</span></div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> CLASSIC AI SEARCH PROBLEM</div>
+          <h1>Make the move.<br><span>Understand the logic.</span></h1>
+          <p>Explore the Tower of Hanoi through human play and an AI solver. Watch recursion turn a complex puzzle into a sequence of simple, optimal moves.</p>
+          <div class="hero-tags"><span><i class="tag-icon">✳</i> RECURSION</span><span><i class="tag-icon">↗</i> STATE SPACE</span><span><i class="tag-icon">◈</i> OPTIMAL SOLUTION</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="art-core"><div class="art-pole"></div><div class="art-disk disk-a"></div><div class="art-disk disk-b"></div><div class="art-disk disk-c"></div></div>
+          <div class="art-label label-top">2ⁿ − 1 <small>MINIMUM MOVES</small></div>
+          <div class="art-label label-bottom"><span class="tiny-pulse"></span> SEARCH ACTIVE</div>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Puzzle statistics">
+        <div class="metric-card"><div class="metric-label">MINIMUM MOVES <span>↗</span></div><div class="metric-value" id="minimumMoves">31</div><div class="metric-note">Optimal path for <b id="metricDiskCount">5</b> disks</div></div>
+        <div class="metric-card"><div class="metric-label">MOVES MADE <span>⌁</span></div><div class="metric-value" id="movesMade">0<span class="metric-unit"> / 31</span></div><div class="progress-track"><div id="progressBar" class="progress-fill"></div></div></div>
+        <div class="metric-card"><div class="metric-label">CURRENT MODE <span>◉</span></div><div class="metric-mode" id="modeLabel">MANUAL PLAY</div><div class="metric-note"><span class="mode-dot"></span><span id="modeDescription">You control every move</span></div></div>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="panel game-panel">
+          <div class="panel-header">
+            <div><div class="panel-kicker">01 / THE PUZZLE</div><h2>Transfer the stack</h2></div>
+            <div class="game-actions"><button class="icon-button" id="resetBtn" title="Reset puzzle" aria-label="Reset puzzle">↺</button><button class="secondary-button" id="undoBtn" disabled>Undo move</button></div>
+          </div>
+          <div class="board-topline"><span><span class="live-indicator"></span> LIVE BOARD</span><span id="boardHint">Select a top disk, then choose a destination peg</span></div>
+          <div class="board" id="board" aria-label="Tower of Hanoi game board">
+            <div class="peg-column" data-peg="0" tabindex="0" role="button" aria-label="Peg A">
+              <div class="peg-stack" id="stack-A"></div><div class="peg-rod"></div><div class="peg-base"></div><div class="peg-name">PEG <b>A</b></div>
+            </div>
+            <div class="peg-column" data-peg="1" tabindex="0" role="button" aria-label="Peg B">
+              <div class="peg-stack" id="stack-B"></div><div class="peg-rod"></div><div class="peg-base"></div><div class="peg-name">PEG <b>B</b></div>
+            </div>
+            <div class="peg-column" data-peg="2" tabindex="0" role="button" aria-label="Peg C">
+              <div class="peg-stack" id="stack-C"></div><div class="peg-rod"></div><div class="peg-base"></div><div class="peg-name">PEG <b>C</b></div>
+            </div>
+          </div>
+          <div class="board-footer"><div class="legend"><span class="legend-swatch"></span> Disk stack <span class="legend-separator">/</span> <span class="legend-target"></span> Destination</div><div class="keyboard-hint"><kbd>Click</kbd> to move <span>·</span> <kbd>R</kbd> to reset</div></div>
+          <div class="win-banner hidden" id="winBanner"><span class="win-icon">✓</span><div><strong>Puzzle solved!</strong><small>You transferred every disk to Peg C.</small></div><button id="playAgainBtn">Play again ↗</button></div>
+        </div>
+
+        <div class="panel controls-panel">
+          <div class="panel-header">
+            <div><div class="panel-kicker">02 / CONTROL CENTER</div><h2>Configure your run</h2></div>
+            <span class="control-chip">v1.0</span>
+          </div>
+          <div class="control-section">
+            <div class="control-title"><label for="diskRange">Number of disks</label><span class="value-pill"><b id="diskCountValue">5</b> <small>DISKS</small></span></div>
+            <input type="range" id="diskRange" min="3" max="8" value="5" />
+            <div class="range-labels"><span>3 · Beginner</span><span>8 · Expert</span></div>
+          </div>
+          <div class="control-section">
+            <div class="control-title"><span>Solver speed</span><span class="speed-value" id="speedValue">1.0×</span></div>
+            <div class="speed-options" role="group" aria-label="Solver speed"><button data-speed="700">0.5×</button><button data-speed="350" class="selected">1×</button><button data-speed="120">2×</button><button data-speed="35">Fast</button></div>
+          </div>
+          <div class="control-section solver-section">
+            <div class="control-title"><span>AI SOLVER</span><span class="solver-status"><span class="mode-dot"></span><span id="solverStatus">STANDBY</span></span></div>
+            <p>Let the recursive algorithm calculate and execute the optimal solution.</p>
+            <button class="primary-button" id="solveBtn"><span class="button-spark">✳</span><span id="solveButtonText">Solve with AI</span><span class="button-arrow">↗</span></button>
+            <div class="solver-subactions"><button id="stepBtn">▷ Step once</button><button id="pauseBtn" disabled>Ⅱ Pause</button></div>
+          </div>
+          <div class="control-section manual-section">
+            <div class="control-title"><span>PLAY MODE</span><span class="manual-status">HUMAN CONTROL</span></div>
+            <p>Pick a top disk, then click another peg. Larger disks cannot sit on smaller ones.</p>
+            <div class="rule-row"><span class="rule-check">✓</span><span>Move one disk at a time</span></div>
+            <div class="rule-row"><span class="rule-check">✓</span><span>Never place a larger disk on a smaller disk</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lower-grid">
+        <div class="panel history-panel">
+          <div class="panel-header"><div><div class="panel-kicker">03 / TRACE LOG</div><h2>Move history</h2></div><span class="log-count" id="historyCount">0 EVENTS</span></div>
+          <div class="history-table-wrap"><table><thead><tr><th>#</th><th>DISK</th><th>FROM</th><th>TO</th><th>TYPE</th></tr></thead><tbody id="historyBody"><tr class="empty-row"><td colspan="5"><span class="empty-symbol">⌁</span>No moves yet. Make your first move or start the AI solver.</td></tr></tbody></table></div>
+        </div>
+        <div class="panel insight-panel" id="how-it-works">
+          <div class="panel-header"><div><div class="panel-kicker">04 / AI CONCEPT</div><h2>How the solver thinks</h2></div><span class="insight-icon">⌘</span></div>
+          <div class="algorithm-flow"><div class="flow-node">Move <b>n−1</b> disks to helper peg</div><div class="flow-connector"><span>↓</span></div><div class="flow-node highlight-node">Move largest disk to target</div><div class="flow-connector"><span>↓</span></div><div class="flow-node">Move <b>n−1</b> disks onto target</div></div>
+          <div class="complexity-row"><div><span>TIME COMPLEXITY</span><strong>O(2ⁿ)</strong></div><div><span>SPACE COMPLEXITY</span><strong>O(n)</strong></div></div>
+          <p class="insight-caption">The recursive strategy breaks the problem into smaller versions of itself. The minimum number of moves is <code>2ⁿ − 1</code>.</p>
+        </div>
+      </section>
+      <footer class="footer"><span>HANOI LAB <span class="footer-dot">●</span> BUILT FOR LEARNING</span><span>Artificial Intelligence · Search & Problem Solving</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
